@@ -722,7 +722,9 @@ int main(int argc, char **argv) {
     ctx->commandArgs(argc, argv);
     // Pin simulation threads unless the process already has an affinity mask
     // (see `VERILATOR_NUMA_STRATEGY`); floating threads severely degrade performance.
+#if VERILATOR_VERSION_INTEGER >= 5028000
     ctx->useNumaAssign(true);
+#endif
 
     std::string binary, trace_file;
     plusarg(ctx.get(), "BINARY", binary);

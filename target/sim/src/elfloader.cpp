@@ -234,7 +234,7 @@ static void load_elf(char *buf, size_t size)
   }
 
   entry = eh->e_entry;
-  printf("[ELF] INFO: Entrypoint at %p\n", entry);
+  printf("[ELF] INFO: Entrypoint at 0x%lx\n", (unsigned long)entry);
 
   // Iterate over all program header entries
   for (unsigned int i = 0; i < eh->e_phnum; i++) {
@@ -248,8 +248,8 @@ static void load_elf(char *buf, size_t size)
       }
 
       if(ph[i].p_memsz > ph[i].p_filesz){
-        printf("[ELF] WARNING: The section starting @ %p contains 0x%lx zero bytes which will NOT be preloaded!\n",
-               ph[i].p_paddr, (ph[i].p_memsz - ph[i].p_filesz));
+        printf("[ELF] WARNING: The section starting @ 0x%lx contains 0x%lx zero bytes which will NOT be preloaded!\n",
+               (unsigned long)ph[i].p_paddr, (unsigned long)(ph[i].p_memsz - ph[i].p_filesz));
       }
     }
   }
@@ -261,8 +261,8 @@ static void load_elf(char *buf, size_t size)
   }
 
   if(eh->e_shstrndx >= eh->e_shnum){
-    printf("[ELF] ERROR: Malformed ELF file. The index of the section header strings is out of bounds (0x%lx vs max 0x%lx)",
-           eh->e_shstrndx, eh->e_shnum);
+    printf("[ELF] ERROR: Malformed ELF file. The index of the section header strings is out of bounds (0x%lx vs max 0x%lx)\n",
+           (unsigned long)eh->e_shstrndx, (unsigned long)eh->e_shnum);
     return;
   }
   

@@ -51,7 +51,7 @@ CHS_VLT_ARGS ?=
 
 CHS_VLT_FLAGS  = --cc --exe --build -j 0 --top-module cheshire_top_verilator
 CHS_VLT_FLAGS += -GSelectedCfg=$(CHS_VLT_SELCFG) $(if $(CHS_VLT_RTC_FREQ),-GRtcFreq=$(CHS_VLT_RTC_FREQ)) -timescale 1ns/1ps
-CHS_VLT_FLAGS += -Wno-fatal -Wno-lint -Wno-style -Wno-MULTIDRIVEN -Wno-UNOPTFLAT
+CHS_VLT_FLAGS += -Wno-fatal -Wno-lint -Wno-style -Wno-MULTIDRIVEN -Wno-UNOPTFLAT -Wno-BLKANDNBLK
 CHS_VLT_FLAGS += $(CHS_VLT_DIR)/config.vlt
 # Build without assertions, including the common_cells assertion macros (`ASSERTS_OFF`)
 CHS_VLT_FLAGS += --noassert -DASSERTS_OFF
@@ -66,7 +66,7 @@ else ifneq ($(CHS_VLT_COMPILER),gcc)
 $(error CHS_VLT_COMPILER must be `clang` or `gcc`)
 endif
 CHS_VLT_FLAGS += -MAKEFLAGS OPT_FAST=-O3
-CHS_VLT_FLAGS += -CFLAGS "-std=c++17 -I$(CHS_ROOT)/target/sim/src"
+CHS_VLT_FLAGS += -CFLAGS "-std=c++17 -I$(CHS_ROOT)/target/sim/src -Wno-error=format -Wno-format"
 ifeq ($(CHS_VLT_TRACE),1)
 CHS_VLT_FLAGS += --trace-$(CHS_VLT_TRACE_FMT) --trace-structs
 endif
